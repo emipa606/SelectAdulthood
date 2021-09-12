@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <SA.reset.button>Reset</SA.reset.button>
+  <SA.search>Search</SA.search>
+  <SA.reset.confirm>This will reset ALL values vanilla values</SA.reset.confirm>
+  <SA.logging.label>Enable verbose logging</SA.logging.label>
+  <SA.logging.tooltip>Shows verbose logging, for finding errors</SA.logging.tooltip>
+  <SA.version.label>Installed mod-version: {0}</SA.version.label>
+</LanguageData>
