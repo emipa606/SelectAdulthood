@@ -3,7 +3,7 @@
 ![Image](https://i.imgur.com/buuPQel.png)
 
 
-Some alien races have life-stages above adulthood, like elderly or ancient. 
+Some races have life-stages above adulthood, like elderly or ancient. 
 This causes issues when using the age-reversal for example as the vanilla logic is to assume that the last life-stage is adulthood.
 
 This mod lets you select what stage is to be considered adulthood for each race if needed.
@@ -12,7 +12,7 @@ This mod lets you select what stage is to be considered adulthood for each race 
 
 Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my https://store.steampowered.com/wishlist/id/Mlie]Wishlist or buy me a cup of tea.
 
-https://ko-fi.com/G2G55DDYD]![Image](https://i.ibb.co/VWJJb3w/Support-Me-dark-2x.png)
+https://ko-fi.com/G2G55DDYD]![Image](https://i.imgur.com/Utx6OIH.png)
 
 
 ![Image](https://i.imgur.com/PwoNOj4.png)
