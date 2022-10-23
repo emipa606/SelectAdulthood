@@ -95,13 +95,14 @@ public class SelectAdulthoodMod : Mod
         listing_Standard = new Listing_Standard();
         listing_Standard.Begin(rect);
         Text.Font = GameFont.Medium;
-        var headerLabel = listing_Standard.Label("Select Adulthood");
+        var headerLabel = listing_Standard.Label("Adulthoods");
 
         if (instance.Settings.RaceAdulthoods == null)
         {
             instance.Settings.RaceAdulthoods = new Dictionary<string, int>();
         }
 
+        Text.Font = GameFont.Small;
         if (instance.Settings.RaceAdulthoods.Any())
         {
             DrawButton(() =>
@@ -114,7 +115,6 @@ public class SelectAdulthoodMod : Mod
                     headerLabel.position.y));
         }
 
-        Text.Font = GameFont.Small;
         listing_Standard.CheckboxLabeled("SA.logging.label".Translate(), ref Settings.VerboseLogging,
             "SA.logging.tooltip".Translate());
         if (currentVersion != null)
@@ -205,6 +205,7 @@ public class SelectAdulthoodMod : Mod
             GUI.color = Color.white;
         }
 
+        scrollListing.End();
         Widgets.EndScrollView();
     }
 
