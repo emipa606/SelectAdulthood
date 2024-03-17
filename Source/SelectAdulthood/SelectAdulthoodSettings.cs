@@ -22,8 +22,8 @@ public class SelectAdulthoodSettings : ModSettings
 
     public void ResetManualValues()
     {
-        raceAdulthoodsKeys = new List<string>();
-        raceAdulthoodsValues = new List<int>();
+        raceAdulthoodsKeys = [];
+        raceAdulthoodsValues = [];
         RaceAdulthoods = new Dictionary<string, int>();
     }
 }

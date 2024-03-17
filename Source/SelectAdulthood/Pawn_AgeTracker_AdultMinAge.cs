@@ -19,12 +19,13 @@ public static class Pawn_AgeTracker_AdultMinAge
         }
 
         if (SelectAdulthoodMod.instance.Settings.RaceAdulthoods == null ||
-            SelectAdulthoodMod.instance.Settings.RaceAdulthoods.ContainsKey(___pawn.def.defName) == false)
+            SelectAdulthoodMod.instance.Settings.RaceAdulthoods.TryGetValue(___pawn.def.defName, out var adulthood) ==
+            false)
         {
             return;
         }
 
         __result = ___pawn.RaceProps
-            .lifeStageAges[SelectAdulthoodMod.instance.Settings.RaceAdulthoods[___pawn.def.defName]].minAge;
+            .lifeStageAges[adulthood].minAge;
     }
 }
