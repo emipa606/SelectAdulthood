@@ -5,6 +5,7 @@ namespace SelectAdulthood;
 
 public class SelectAdulthoodSettings : ModSettings
 {
+    public bool HideMechs;
     public Dictionary<string, int> RaceAdulthoods = new Dictionary<string, int>();
     private List<string> raceAdulthoodsKeys;
     private List<int> raceAdulthoodsValues;
@@ -15,6 +16,7 @@ public class SelectAdulthoodSettings : ModSettings
     {
         base.ExposeData();
         Scribe_Values.Look(ref VerboseLogging, "VerboseLogging");
+        Scribe_Values.Look(ref HideMechs, "HideMechs");
         Scribe_Collections.Look(ref RaceAdulthoods, "RaceAdulthoods", LookMode.Value,
             LookMode.Value,
             ref raceAdulthoodsKeys, ref raceAdulthoodsValues);

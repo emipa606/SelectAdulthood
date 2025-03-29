@@ -11,6 +11,8 @@ namespace SelectAdulthood;
 
 public class SelectAdulthoodMod : Mod
 {
+    private const float rowHeight = 65;
+
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
@@ -116,6 +118,9 @@ public class SelectAdulthoodMod : Mod
 
         listing_Standard.CheckboxLabeled("SA.logging.label".Translate(), ref Settings.VerboseLogging,
             "SA.logging.tooltip".Translate());
+        listing_Standard.CheckboxLabeled("SA.hidemechs.label".Translate(), ref Settings.HideMechs,
+            "SA.hidemechs.tooltip".Translate());
+
         if (currentVersion != null)
         {
             listing_Standard.Gap();
@@ -136,6 +141,11 @@ public class SelectAdulthoodMod : Mod
         listing_Standard.End();
 
         var races = SelectAdulthood.AllRaces;
+        if (Settings.HideMechs)
+        {
+            races = races.Where(def => !def.race.IsMechanoid).ToList();
+        }
+
         if (!string.IsNullOrEmpty(searchText))
         {
             races = SelectAdulthood.AllRaces.Where(def =>
@@ -145,10 +155,10 @@ public class SelectAdulthoodMod : Mod
         }
 
         var borderRect = rect;
-        borderRect.y += headerLabel.y + 90;
-        borderRect.height -= headerLabel.y + 90;
+        borderRect.y += listing_Standard.CurHeight;
+        borderRect.height -= listing_Standard.CurHeight;
         var scrollContentRect = rect;
-        scrollContentRect.height = races.Count * 51f;
+        scrollContentRect.height = races.Count * rowHeight;
         scrollContentRect.width -= 20;
         scrollContentRect.x = 0;
         scrollContentRect.y = 0;
@@ -161,7 +171,9 @@ public class SelectAdulthoodMod : Mod
         foreach (var raceThing in races)
         {
             var modInfo = raceThing.modContentPack?.Name;
-            var rowRect = scrollListing.GetRect(50);
+            var raceInfo = raceThing.defName;
+            var rowRect = scrollListing.GetRect(rowHeight);
+            var slideRect = rowRect.RightPartPixels(rowRect.width - rowHeight);
             alternate = !alternate;
             if (alternate)
             {
@@ -176,15 +188,15 @@ public class SelectAdulthoodMod : Mod
             }
 
 
-            var raceLabel = $"{raceThing.label.CapitalizeFirst()} ({raceThing.defName})";
+            var raceLabel = $"{raceThing.label.CapitalizeFirst()}";
             if (raceLabel.Length > 55)
             {
                 raceLabel = $"{raceLabel.Substring(0, 52)}...";
             }
 
-            if (modInfo is { Length: > 55 })
+            if (raceInfo is { Length: > 55 })
             {
-                modInfo = $"{modInfo.Substring(0, 52)}...";
+                raceInfo = $"{raceInfo.Substring(0, 52)}...";
             }
 
             var currentStage = raceThing.race.lifeStageAges[instance.Settings.RaceAdulthoods[raceThing.defName]];
@@ -195,12 +207,14 @@ public class SelectAdulthoodMod : Mod
 
             instance.Settings.RaceAdulthoods[raceThing.defName] =
                 (int)Math.Round((decimal)Widgets.HorizontalSlider(
-                    rowRect,
+                    slideRect,
                     instance.Settings.RaceAdulthoods[raceThing.defName], 0,
                     lifeStages, false,
                     $"{currentStage.def.label.CapitalizeFirst()} {currentStage.minAge}+ ({currentStage.def.defName})",
                     raceLabel,
-                    modInfo), 4);
+                    raceInfo), 4);
+            Widgets.ThingIcon(rowRect.LeftPartPixels(rowHeight), raceThing);
+            TooltipHandler.TipRegion(rowRect, modInfo);
             GUI.color = Color.white;
         }
 

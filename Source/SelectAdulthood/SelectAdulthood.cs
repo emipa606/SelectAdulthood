@@ -14,7 +14,7 @@ public class SelectAdulthood
     static SelectAdulthood()
     {
         AllRaces = DefDatabase<ThingDef>.AllDefsListForReading
-            .Where(def => def.race is { Animal: false, lifeStageAges.Count: > 1 })
+            .Where(def => def.race is { Animal: false, lifeStageAges.Count: > 1 } && !def.IsCorpse)
             .OrderBy(def => def.label).ToList();
         var harmony = new Harmony("Mlie.SelectAdulthood");
         harmony.PatchAll(Assembly.GetExecutingAssembly());

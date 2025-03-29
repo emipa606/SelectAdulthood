@@ -1,9 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <SA.reset.button>Reset</SA.reset.button>
   <SA.search>Search</SA.search>
   <SA.reset.confirm>This will reset ALL values to vanilla values</SA.reset.confirm>
   <SA.logging.label>Enable verbose logging</SA.logging.label>
   <SA.logging.tooltip>Shows verbose logging, for finding errors</SA.logging.tooltip>
+  <SA.hidemechs.label>Hide mechs from the list</SA.hidemechs.label>
+  <SA.hidemechs.tooltip>Hides mechs from the option-list, any changed settings will still apply for them</SA.hidemechs.tooltip>
   <SA.version.label>Installed mod-version: {0}</SA.version.label>
 </LanguageData>
