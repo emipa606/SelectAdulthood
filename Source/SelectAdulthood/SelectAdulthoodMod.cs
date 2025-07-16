@@ -11,18 +11,18 @@ namespace SelectAdulthood;
 
 public class SelectAdulthoodMod : Mod
 {
-    private const float rowHeight = 65;
+    private const float RowHeight = 65;
 
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
-    public static SelectAdulthoodMod instance;
+    public static SelectAdulthoodMod Instance;
 
-    private static readonly Vector2 buttonSize = new Vector2(120f, 25f);
+    private static readonly Vector2 buttonSize = new(120f, 25f);
 
-    private static readonly Vector2 searchSize = new Vector2(200f, 25f);
+    private static readonly Vector2 searchSize = new(200f, 25f);
 
-    private static Listing_Standard listing_Standard;
+    private static Listing_Standard listingStandard;
 
     private static string currentVersion;
 
@@ -30,7 +30,7 @@ public class SelectAdulthoodMod : Mod
 
     private static string searchText = "";
 
-    private static readonly Color alternateBackground = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+    private static readonly Color alternateBackground = new(0.2f, 0.2f, 0.2f, 0.5f);
 
     /// <summary>
     ///     The private settings
@@ -44,11 +44,8 @@ public class SelectAdulthoodMod : Mod
     public SelectAdulthoodMod(ModContentPack content)
         : base(content)
     {
-        instance = this;
-        if (instance.Settings.RaceAdulthoods == null)
-        {
-            instance.Settings.RaceAdulthoods = new Dictionary<string, int>();
-        }
+        Instance = this;
+        Instance.Settings.RaceAdulthood ??= new Dictionary<string, int>();
 
         currentVersion =
             VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
@@ -61,19 +58,14 @@ public class SelectAdulthoodMod : Mod
     {
         get
         {
-            if (settings == null)
-            {
-                settings = GetSettings<SelectAdulthoodSettings>();
-            }
+            settings ??= GetSettings<SelectAdulthoodSettings>();
 
             return settings;
         }
-
-        set => settings = value;
     }
 
 
-    private static void DrawButton(Action action, string text, Vector2 pos)
+    private static void drawButton(Action action, string text, Vector2 pos)
     {
         var rect = new Rect(pos.x, pos.y, buttonSize.x, buttonSize.y);
         if (!Widgets.ButtonText(rect, text, true, false, Color.white))
@@ -93,39 +85,36 @@ public class SelectAdulthoodMod : Mod
     {
         base.DoSettingsWindowContents(rect);
 
-        listing_Standard = new Listing_Standard();
-        listing_Standard.Begin(rect);
+        listingStandard = new Listing_Standard();
+        listingStandard.Begin(rect);
         Text.Font = GameFont.Medium;
-        var headerLabel = listing_Standard.Label("Adulthoods");
+        var headerLabel = listingStandard.Label("Adulthoods");
 
-        if (instance.Settings.RaceAdulthoods == null)
-        {
-            instance.Settings.RaceAdulthoods = new Dictionary<string, int>();
-        }
+        Instance.Settings.RaceAdulthood ??= new Dictionary<string, int>();
 
         Text.Font = GameFont.Small;
-        if (instance.Settings.RaceAdulthoods.Any())
+        if (Instance.Settings.RaceAdulthood.Any())
         {
-            DrawButton(() =>
+            drawButton(() =>
                 {
                     Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                         "SA.reset.confirm".Translate(),
-                        delegate { instance.Settings.ResetManualValues(); }));
+                        delegate { Instance.Settings.ResetManualValues(); }));
                 }, "SA.reset.button".Translate(),
                 new Vector2(headerLabel.position.x + headerLabel.width - buttonSize.x,
                     headerLabel.position.y));
         }
 
-        listing_Standard.CheckboxLabeled("SA.logging.label".Translate(), ref Settings.VerboseLogging,
+        listingStandard.CheckboxLabeled("SA.logging.label".Translate(), ref Settings.VerboseLogging,
             "SA.logging.tooltip".Translate());
-        listing_Standard.CheckboxLabeled("SA.hidemechs.label".Translate(), ref Settings.HideMechs,
+        listingStandard.CheckboxLabeled("SA.hidemechs.label".Translate(), ref Settings.HideMechs,
             "SA.hidemechs.tooltip".Translate());
 
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
+            listingStandard.Gap();
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("SA.version.label".Translate(currentVersion));
+            listingStandard.Label("SA.version.label".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
@@ -138,7 +127,7 @@ public class SelectAdulthoodMod : Mod
             headerLabel.position + new Vector2((rect.width / 2) - (searchSize.x / 2), 0),
             searchSize), "SA.search".Translate());
 
-        listing_Standard.End();
+        listingStandard.End();
 
         var races = SelectAdulthood.AllRaces;
         if (Settings.HideMechs)
@@ -155,10 +144,10 @@ public class SelectAdulthoodMod : Mod
         }
 
         var borderRect = rect;
-        borderRect.y += listing_Standard.CurHeight;
-        borderRect.height -= listing_Standard.CurHeight;
+        borderRect.y += listingStandard.CurHeight;
+        borderRect.height -= listingStandard.CurHeight;
         var scrollContentRect = rect;
-        scrollContentRect.height = races.Count * rowHeight;
+        scrollContentRect.height = races.Count * RowHeight;
         scrollContentRect.width -= 20;
         scrollContentRect.x = 0;
         scrollContentRect.y = 0;
@@ -172,8 +161,8 @@ public class SelectAdulthoodMod : Mod
         {
             var modInfo = raceThing.modContentPack?.Name;
             var raceInfo = raceThing.defName;
-            var rowRect = scrollListing.GetRect(rowHeight);
-            var slideRect = rowRect.RightPartPixels(rowRect.width - rowHeight);
+            var rowRect = scrollListing.GetRect(RowHeight);
+            var slideRect = rowRect.RightPartPixels(rowRect.width - RowHeight);
             alternate = !alternate;
             if (alternate)
             {
@@ -181,39 +170,39 @@ public class SelectAdulthoodMod : Mod
             }
 
             var lifeStages = raceThing.race.lifeStageAges.Count - 1;
-            if (!instance.Settings.RaceAdulthoods.ContainsKey(raceThing.defName) ||
-                instance.Settings.RaceAdulthoods[raceThing.defName] > lifeStages)
+            if (!Instance.Settings.RaceAdulthood.ContainsKey(raceThing.defName) ||
+                Instance.Settings.RaceAdulthood[raceThing.defName] > lifeStages)
             {
-                instance.Settings.RaceAdulthoods[raceThing.defName] = lifeStages;
+                Instance.Settings.RaceAdulthood[raceThing.defName] = lifeStages;
             }
 
 
             var raceLabel = $"{raceThing.label.CapitalizeFirst()}";
             if (raceLabel.Length > 55)
             {
-                raceLabel = $"{raceLabel.Substring(0, 52)}...";
+                raceLabel = $"{raceLabel[..52]}...";
             }
 
             if (raceInfo is { Length: > 55 })
             {
-                raceInfo = $"{raceInfo.Substring(0, 52)}...";
+                raceInfo = $"{raceInfo[..52]}...";
             }
 
-            var currentStage = raceThing.race.lifeStageAges[instance.Settings.RaceAdulthoods[raceThing.defName]];
-            if (instance.Settings.RaceAdulthoods[raceThing.defName] != lifeStages)
+            var currentStage = raceThing.race.lifeStageAges[Instance.Settings.RaceAdulthood[raceThing.defName]];
+            if (Instance.Settings.RaceAdulthood[raceThing.defName] != lifeStages)
             {
                 GUI.color = Color.green;
             }
 
-            instance.Settings.RaceAdulthoods[raceThing.defName] =
+            Instance.Settings.RaceAdulthood[raceThing.defName] =
                 (int)Math.Round((decimal)Widgets.HorizontalSlider(
                     slideRect,
-                    instance.Settings.RaceAdulthoods[raceThing.defName], 0,
+                    Instance.Settings.RaceAdulthood[raceThing.defName], 0,
                     lifeStages, false,
                     $"{currentStage.def.label.CapitalizeFirst()} {currentStage.minAge}+ ({currentStage.def.defName})",
                     raceLabel,
                     raceInfo), 4);
-            Widgets.ThingIcon(rowRect.LeftPartPixels(rowHeight), raceThing);
+            Widgets.ThingIcon(rowRect.LeftPartPixels(RowHeight), raceThing);
             TooltipHandler.TipRegion(rowRect, modInfo);
             GUI.color = Color.white;
         }

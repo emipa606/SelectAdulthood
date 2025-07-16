@@ -3,7 +3,7 @@ using Verse;
 
 namespace SelectAdulthood;
 
-[HarmonyPatch(typeof(Pawn_AgeTracker), "AdultMinAge", MethodType.Getter)]
+[HarmonyPatch(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.AdultMinAge), MethodType.Getter)]
 public static class Pawn_AgeTracker_AdultMinAge
 {
     public static void Postfix(Pawn ___pawn, ref float __result)
@@ -18,9 +18,8 @@ public static class Pawn_AgeTracker_AdultMinAge
             return;
         }
 
-        if (SelectAdulthoodMod.instance.Settings.RaceAdulthoods == null ||
-            SelectAdulthoodMod.instance.Settings.RaceAdulthoods.TryGetValue(___pawn.def.defName, out var adulthood) ==
-            false)
+        if (SelectAdulthoodMod.Instance.Settings.RaceAdulthood == null ||
+            !SelectAdulthoodMod.Instance.Settings.RaceAdulthood.TryGetValue(___pawn.def.defName, out var adulthood))
         {
             return;
         }
