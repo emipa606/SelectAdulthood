@@ -7,7 +7,7 @@ using Verse;
 namespace SelectAdulthood;
 
 [StaticConstructorOnStartup]
-public class SelectAdulthood
+public static class SelectAdulthood
 {
     public static readonly List<ThingDef> AllRaces;
 

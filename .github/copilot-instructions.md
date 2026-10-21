@@ -1,41 +1,59 @@
-# GitHub Copilot Instructions for "Select Adulthood" RimWorld Mod
+# GitHub Copilot Instructions for Select Adulthood Mod
 
 ## Mod Overview and Purpose
 
-The "Select Adulthood" mod for RimWorld offers players the ability to customize the age at which a colonist is considered an adult. This mod is intended to provide greater control over the gameplay experience by allowing players to define when a pawn transitions from childhood to adulthood, rather than relying on the default age set by the base game. 
+**Mod Name:** Select Adulthood  
+**Mod Description:** Select Adulthood addresses the issue with certain races in RimWorld that feature life-stages beyond adulthood, such as elderly or ancient, which can cause inconsistencies, particularly with age-reversal mechanics. The vanilla logic in RimWorld assumes the last life-stage as adulthood, which can lead to undesired results. This mod provides a solution by allowing users to designate a specific life-stage as adulthood for each race. Additionally, it includes a mod-option to hide mechanoid races from the selection list, reflecting the increased number of such races since the Biotech expansion.
 
 ## Key Features and Systems
 
-- **Custom Adulthood Age:** Players can specify the exact age at which pawns are classified as adults. This feature allows for a tailored gameplay and storytelling experience.
-- **Configurable Settings:** The mod includes a settings menu where players can adjust the adulthood age parameter, providing flexibility and ease of use.
-- **Integration with Existing Game Systems:** The mod intelligently integrates with RimWorld’s existing age-tracking system to ensure seamless compatibility.
+- **Custom Adulthood Designation:** Allows players to select the appropriate life-stage to be considered adulthood for different races, improving compatibility with age-related mechanics.
+- **Race Filter:** A mod-option to hide mechanoid races from the adulthood selection list, streamlining the customization process.
+- **User Interface Integration:** Provides an easy-to-use interface within the game's mod settings menu for configuring adulthood stages per race.
 
 ## Coding Patterns and Conventions
 
-- The codebase primarily uses static classes and methods for utility functions, minimizing object instantiation where unnecessary.
-- Naming conventions follow C# standards with **PascalCase** for class and method names (e.g., `SelectAdulthoodMod`, `ResetManualValues`).
-- Maintain code readability by providing comments and using descriptive variable names.
+The mod adheres to structured C# conventions and object-oriented programming practices. Key patterns and conventions used include:
+
+- **Consistent Naming:** Class and method names are descriptive and follow PascalCase convention (e.g., `SelectAdulthoodSettings`, `Pawn_AgeTracker_AdultMinAge`).
+- **Use of Partial Classes:** Modular approach to manage settings (e.g., `SelectAdulthoodSettings` for handling user-defined configuration).
+- **Comment Usage:** Important methods and logic blocks are documented with comments to enhance code readability and maintainability.
 
 ## XML Integration
 
-XML integration, although not detailed in the provided summary, is crucial for defining mod metadata and settings within RimWorld. XML files might include:
+Though this project does not currently involve any XML configuration files, potential future enhancements could include:
 
-- **Defs for settings and presets:** Allowing the mod to load specific configurations as defined by users.
-- **Menus and UI elements:** Where XML is used to describe extensions or altered UI elements for settings navigation.
+- **XML Defs for Custom Races:** Creating XML defs to extend the mod's functionality to support additional custom races defined in other mods.
 
 ## Harmony Patching
 
-Harmony is used for patching RimWorld’s methods to introduce the new adulthood age feature. Here are some considerations when using Harmony:
+The mod utilizes Harmony, a library that allows runtime method patching. This is crucial for maintaining dynamic interaction with the game's core logic without altering the original source code. The use of Harmony in this mod includes:
 
-- **Prepare**: Identify the target methods from the base game that need alteration, typically related to age-tracking.
-- **Patch**: Use `HarmonyPatch` attributes in your C# classes to insert pre- and post-execution hooks in these methods to change the adulthood behavior.
-- **Consistency**: Ensure that patches maintain consistency with RimWorld’s update cycle to prevent errors during gameplay.
+- **Postfix Method Patching:** The primary harmony patch is implemented using a postfix method in `Pawn_AgeTracker_AdultMinAge.cs`. This modification adjusts the game's standard logic to accommodate user-defined adulthood stages.
 
 ## Suggestions for Copilot
 
-- **Automation of Routine Tasks**: Utilize Copilot for generating repetitive code patterns, such as methods for UI bindings or configurations.
-- **Refactoring Assistance**: Leverage Copilot to propose refactoring suggestions for improved performance or readability.
-- **Error Handling Strategies**: Use Copilot to generate base templates for error handling scenarios, helping to catch and manage runtime exceptions.
-- **Harmony Patches**: Request Copilot to draft basic structure and logic for Harmony patches based on method signatures and intended behavior transformations.
+When using GitHub Copilot to assist with development in this mod, consider the following:
 
-By following these guidelines, you can effectively use GitHub Copilot to streamline your development process for the "Select Adulthood" mod, allowing you to focus more on creativity and gameplay experience improvements.
+- **Enhancement Suggestions:** Utilize Copilot to brainstorm enhancements, such as additional UI elements for clearer race selections or automated integration tests.
+- **Error Handling:** Leverage Copilot to suggest robust error handling practices when user inputs are processed in settings.
+- **XML Features:** Seek Copilot's help to draft and implement XML-based configurations if integrating new races or mechanics that require XML defs.
+- **Code Optimization:** Ask Copilot to propose optimizations for existing C# code to improve performance or readability.
+
+This file serves as a guide for developers working on the Select Adulthood mod to utilize GitHub Copilot effectively, ensuring continuity in development and adherence to the mod's architecture and design principles.
+
+## Project Solution Guidelines
+- Relevant mod XML files are included as Solution Items under the solution folder named XML, these can be read and modified from within the solution.
+- Use these in-solution XML files as the primary files for reference and modification.
+- The `.github/copilot-instructions.md` file is included in the solution under the `.github` solution folder, so it should be read/modified from within the solution instead of using paths outside the solution. Update this file once only, as it and the parent-path solution reference point to the same file in this workspace.
+- When making functional changes in this mod, ensure the documented features stay in sync with implementation; use the in-solution `.github` copy as the primary file.
+- In the solution is also a project called Assembly-CSharp, containing a read-only version of the decompiled game source, for reference and debugging purposes.
+- For any new documentation, update this copilot-instructions.md file rather than creating separate documentation files.
+
+
+## Hard rules (must follow)
+- Do NOT run commands that modify the repo (no git commit, git apply, dotnet format) unless explicitly asked.
+- Prefer minimal reads: read only the smallest code region needed (around the suspicious lines).
+- When mentioning SonarQube issues, automatically use the SonarQube MCP service to fetch and address issues instead of making inferred fixes without querying SonarQube first.
+- When mentioning the rimworld log, automatically use the Rimworld MCP service to fetch the log.
+

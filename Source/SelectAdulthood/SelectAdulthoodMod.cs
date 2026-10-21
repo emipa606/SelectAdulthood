@@ -80,13 +80,13 @@ public class SelectAdulthoodMod : Mod
     /// <summary>
     ///     The settings-window
     /// </summary>
-    /// <param name="rect"></param>
-    public override void DoSettingsWindowContents(Rect rect)
+    /// <param name="inRect"></param>
+    public override void DoSettingsWindowContents(Rect inRect)
     {
-        base.DoSettingsWindowContents(rect);
+        base.DoSettingsWindowContents(inRect);
 
         listingStandard = new Listing_Standard();
-        listingStandard.Begin(rect);
+        listingStandard.Begin(inRect);
         Text.Font = GameFont.Medium;
         var headerLabel = listingStandard.Label("Adulthoods");
 
@@ -120,11 +120,11 @@ public class SelectAdulthoodMod : Mod
 
         searchText =
             Widgets.TextField(
-                new Rect(headerLabel.position + new Vector2((rect.width / 2) - (searchSize.x / 2), 0),
+                new Rect(headerLabel.position + new Vector2((inRect.width / 2) - (searchSize.x / 2), 0),
                     searchSize),
                 searchText);
         TooltipHandler.TipRegion(new Rect(
-            headerLabel.position + new Vector2((rect.width / 2) - (searchSize.x / 2), 0),
+            headerLabel.position + new Vector2((inRect.width / 2) - (searchSize.x / 2), 0),
             searchSize), "SA.search".Translate());
 
         listingStandard.End();
@@ -143,10 +143,10 @@ public class SelectAdulthoodMod : Mod
                 .ToList();
         }
 
-        var borderRect = rect;
+        var borderRect = inRect;
         borderRect.y += listingStandard.CurHeight;
         borderRect.height -= listingStandard.CurHeight;
-        var scrollContentRect = rect;
+        var scrollContentRect = inRect;
         scrollContentRect.height = races.Count * RowHeight;
         scrollContentRect.width -= 20;
         scrollContentRect.x = 0;

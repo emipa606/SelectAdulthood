@@ -7,10 +7,10 @@ public class SelectAdulthoodSettings : ModSettings
 {
     public bool HideMechs;
     public Dictionary<string, int> RaceAdulthood = new();
-    private List<string> raceAdulthoodKeys;
-    private List<int> raceAdulthoodValues;
 
     public bool VerboseLogging;
+    private List<string> raceAdulthoodKeys;
+    private List<int> raceAdulthoodValues;
 
     public override void ExposeData()
     {
